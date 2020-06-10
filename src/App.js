@@ -1,24 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+
+import Apples from './Apples'
+import Money from './Money'
+import Trees from './Trees'
 
 function App() {
+  const [apples, setApples] = useState(0)
+  const [money, setMoney] = useState(0)
+  const [trees, setTrees] = useState(1)
+
+  const growApples = trees => {
+    setInterval(() => {
+      setApples(apples + trees)
+    }, 1000)
+  }
+
+  useEffect(
+    growApples(trees)
+  )
+
+
+  const sellApples = qty => {
+    setApples(apples - qty)
+    setMoney(money + qty * 0.8)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="grid-container">
+      <h1 className='text-center'>Apple Farmer</h1>
+      { /* Money goes here */ }
+      <Money />
+      { /* Apples goes here */ }
+      <Apples
+        apples={apples}
+        setApples={setApples}
+        sellApples={sellApples}
+      />
+      { /* Trees goes here */ }
+      <Trees
+        trees={trees}
+        setTrees={setTrees}
+      />
     </div>
   );
 }

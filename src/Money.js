@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Money = props => {
+const Money = ({money}) => {
   return (
     <div>
-      <p>I'm how much money you have</p>
+      <h3>Funds: <span>{money.toFixed(2)}</span></h3>
     </div>
   )
 }

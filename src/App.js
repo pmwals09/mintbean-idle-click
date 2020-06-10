@@ -9,37 +9,53 @@ function App() {
   const [money, setMoney] = useState(0)
   const [trees, setTrees] = useState(1)
 
-  const growApples = trees => {
-    setInterval(() => {
+  useEffect(() => {
+    const interval = setInterval(() => {
       setApples(apples + trees)
     }, 1000)
-  }
-
-  useEffect(
-    growApples(trees)
-  )
-
+    return () => clearInterval(interval)
+  }, [apples, trees])
 
   const sellApples = qty => {
-    setApples(apples - qty)
-    setMoney(money + qty * 0.8)
+    if(apples - qty >= 0){
+      setApples(apples - qty)
+      setMoney(money + qty * 0.8)
+    }
+  }
+
+  const buyTrees = qty => {
+    const cost = qty * 7.5
+    if(money >= cost) {
+      setTrees(trees + qty)
+      setMoney(money - cost)
+    }
+  }
+
+  const buyCiderPress = qty => {
+    const cost = qty * 75
+  }
+
+  const buyCiderMill = qty => {
+    const cost = qty * 750
+  }
+
+  const buyDonutMachine = qty => {
+    const cost = qty * 1500
   }
 
   return (
     <div className="grid-container">
       <h1 className='text-center'>Apple Farmer</h1>
-      { /* Money goes here */ }
-      <Money />
-      { /* Apples goes here */ }
+      <Money
+        money={money}
+      />
       <Apples
         apples={apples}
-        setApples={setApples}
         sellApples={sellApples}
       />
-      { /* Trees goes here */ }
       <Trees
         trees={trees}
-        setTrees={setTrees}
+        buyTrees={buyTrees}
       />
     </div>
   );

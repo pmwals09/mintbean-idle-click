@@ -126,7 +126,7 @@ function App() {
           item={'cider'}
           qty={ciders}
           profit={'$1.60/ea'}
-          sellableQtys={[1, 5, 10, 20]}
+          sellableQtys={[1, 10, 50, 100]}
           fn={sellCider}
         />
       }
@@ -151,7 +151,7 @@ function App() {
           item={'donut'}
           qty={donuts}
           profit={'$3.20/ea'}
-          sellableQtys={[1, 6, 12, 24]}
+          sellableQtys={[1, 12, 24, 48]}
           fn={sellDonuts}
         />
       }

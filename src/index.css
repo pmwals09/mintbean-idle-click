@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("./jen-theodore-P96rE0gVVLs-unsplash.jpg");
+  /* transform: scaleX(-1); */
 }
 
 code {
@@ -12,5 +14,30 @@ code {
     monospace;
 }
 
-.apple p {
+h1, h2, h3, h4, h5, h6, p {
+  color: white;
+}
+
+.button {
+  border-radius: 0.5rem;
+}
+
+.button:hover {
+  background-color: #404E2D;
+}
+
+.apple {
+  background-color: #8E283D;
+}
+
+.tree {
+  background-color: #4E3C2E;
+}
+
+.ciderpres, .cider, .cidermill {
+  background-color: #9B6517;
+}
+
+.donut {
+  background-color: #EE872B;
 }

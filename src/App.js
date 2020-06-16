@@ -1,23 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'
 
-import Resource from './Resource'
-import Factory from './Factory'
-import Money from './Money'
+import {addApple, addCider, addDonut} from './modules/resources'
+import {sellApple, sellCider, sellDonut} from './modules/resources'
+import {addTree, addCiderPress, addCiderMill, addDonutMachine, addDonutFactory} from './modules/factories'
+import {addMoney, spendMoney} from './modules/money'
 
-function App() {
-  const [apples, setApples] = useState(0)
-  const [money, setMoney] = useState(0)
-  const [trees, setTrees] = useState(1)
-  const [ciders, setCiders] = useState(0)
-  const [ciderPresses, setCiderPresses] = useState(0)
-  const [ciderMills, setCiderMills] = useState(0)
-  const [donuts, setDonuts] = useState(0)
-  const [donutMachines, setDonutMachines] = useState(0)
-  const [donutFactories, setDonutFactories] = useState(0)
+import Resource from './components/Resource'
+import Factory from './components/Factory'
+import Money from './components/Money'
+
+
+const App = () => {
+  const apples = useSelector(state => state.apples)
+  const ciders = useSelector(state => state.ciders)
+  const donuts = useSelector(state => state.donuts)
+  const trees = useSelector(state => state.trees)
+  const ciderPresses = useSelector(state => state.ciderPresses)
+  const ciderMills = useSelector(state => state.ciderMills)
+  const donutMachines = useSelector(state => state.donutMachines)
+  const donutFactories = useSelector(state => state.donutFactories)
+  const money = useSelector(state => state.money)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setApples(apples + 1)
+      addApple(1)
     }, 1000/trees)
     return () => clearInterval(interval)
   }, [apples, trees])
@@ -25,7 +32,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if(ciderPresses > 0){
-        setCiders(ciders + 1)
+        addCider(1)
       }
     }, 1000/(ciderPresses + 1.5 * ciderMills))
     return () => clearInterval(interval)
@@ -34,72 +41,11 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       if(donutMachines > 0) {
-        setDonuts(donuts + 1)
+        addDonut(1)
       }
     }, 1000/(donutMachines + 2 * donutFactories))
     return () => clearInterval(interval)
   }, [donuts, donutMachines, donutFactories])
-
-  const sellApples = qty => {
-    if(apples - qty >= 0){
-      setApples(apples - qty)
-      setMoney(money + qty * 0.8)
-    }
-  }
-
-  const sellCider = qty => {
-    if(ciders - qty >= 0){
-      setCiders(ciders - qty)
-      setMoney(money + qty * 1.6)
-    }
-  }
-
-  const sellDonuts = qty => {
-    if(donuts - qty >= 0){
-      setDonuts(donuts - qty)
-      setMoney(money + qty * 3.20)
-    }
-  }
-
-  const buyTrees = qty => {
-    const cost = qty * 7.5
-    if(money >= cost) {
-      setTrees(trees + qty)
-      setMoney(money - cost)
-    }
-  }
-
-  const buyCiderPress = qty => {
-    const cost = qty * 75
-    if(money >= cost) {
-      setCiderPresses(ciderPresses + 1)
-      setMoney(money - cost)
-    }
-  }
-
-  const buyCiderMill = qty => {
-    const cost = qty * 750
-    if(money >= cost) {
-      setCiderMills(ciderMills + 1)
-      setMoney(money - cost)
-    }
-  }
-
-  const buyDonutMachine = qty => {
-    const cost = qty * 1500
-    if(money >= cost) {
-      setDonutMachines(donutMachines + 1)
-      setMoney(money - cost)
-    }
-  }
-
-  const buyDonutFactory = qty => {
-    const cost = qty * 3000
-    if(money >= cost) {
-      setDonutFactories(donutFactories + 1)
-      setMoney(money - cost)
-    }
-  }
 
   return (
     <div className="grid-container">
@@ -175,4 +121,23 @@ function App() {
   );
 }
 
-export default App;
+// const mapStateToProps = state => {
+//   return {
+//     apples: state.apples,
+//     ciders: state.ciders,
+//     donuts: state.donuts
+//   }
+// }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addApple: apples => dispatch(addApple(apples)),
+    addCider: ciders => dispatch(addCider(ciders)),
+    addDonut: donuts => dispatch(addDonut(donuts))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
